@@ -135,6 +135,37 @@ python load_db.py        # run the SQL analysis
 
 ---
 
+## So What? — What This Shows and Where It Goes Next
+
+This project is a descriptive analysis, not a causal one, and it's deliberately
+cautious about what a cross-country correlation can claim. The headline result
+(that more campaign finance regulation tracks *higher* perceived corruption)
+confirmed a suspicion I had going in: that legislation in this region is often
+**reactive**. Countries pass reform laws in response to corruption scandals and
+public pressure, so the presence of strong laws can be a marker of a corruption
+problem rather than evidence it's been solved. The practical lesson is that a high
+regulatory score should prompt the question *"is this enforced, and did it change
+anything?"* rather than reassurance.
+
+It also reinforced a limit of this kind of index: a regional aggregate flattens
+real differences between countries that share little beyond geography. A meaningful
+read of any single country needs more than its score.
+
+**Where I'd take this next:**
+
+- **Add enforcement data** — prosecutions, audit outcomes, or sanctions actually
+  applied — to test whether laws *plus* enforcement track cleaner outcomes where
+  laws alone do not.
+- **Bring in qualitative and sentiment data** to capture what a 0–100 score can't:
+  how reform is actually perceived and experienced on the ground.
+- **Go country-specific, not just regional** — individual assessments would draw on
+  each country's legislative history and the existing literature, since context
+  varies sharply even within the region.
+- **Track change over time** rather than a single 2025 snapshot, to see whether
+  reforms eventually move the perception needle.
+
+ --- 
+
 ## Author
 
 **Angello Leon**
