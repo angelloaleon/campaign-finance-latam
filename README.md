@@ -33,6 +33,8 @@ The negative relationship holds across all three specifications and remains sign
 at the 95% level, indicating it is not an artifact of the weighting scheme or the
 treatment of missing data. Full computation is in the analysis notebook (§3b).
 
+---
+
 ## Data Sources
 
 | Dataset | Source | Year |
@@ -56,10 +58,24 @@ Each country is scored across **12 variables** grouped into **4 pillars**:
 
 Each variable is scored 0, 0.5, or 1 based on IDEA's responses. The final CFRS is the average across all 12 variables, scaled to 0–100.
 
-**Note on weighting:** because the index averages all 12 variables equally, the pillars are *not* weighted equally — Prohibitions and Transparency (4 variables each) carry twice the weight of Spending Limits and Enforcement (2 variables each). This is a deliberate choice reflecting variable availability in the IDEA data; a pillar-weighted robustness check is noted under Limitations.
+**Note on weighting:** because the index averages all 12 variables equally, the pillars are *not* weighted equally — Prohibitions and Transparency (4 variables each) carry twice the weight of Spending Limits and Enforcement (2 variables each). This is a deliberate choice reflecting variable availability in the IDEA data; a pillar-weighted version is reported in the [Robustness](#robustness) section above.
 
 ### Correlation
 Spearman rank correlation was chosen over Pearson because the data is ordinal and a strictly linear relationship is not assumed.
+
+---
+
+## SQL Analysis
+
+The same data is also queryable in SQL. `load_db.py` loads the CSVs into an
+in-memory SQLite database and runs `queries.sql`, which includes:
+
+- an **inner join** of CFRS and CPI on ISO3 (the 30-country analysis set)
+- a **tiered ranking** of regulatory strength using `CASE`
+- **regional pillar averages**, which show the region is strongest on
+  Transparency (65) and Enforcement (61) but weakest on Spending Limits (42)
+
+Run it with `python load_db.py`.
 
 ---
 
@@ -70,7 +86,7 @@ campaign-finance-latam/
 ├── data/
 │   ├── raw/
 │   │   ├── export_table_raw.csv        # IDEA Political Finance Database export
-│   │   └── CPI2025_Results.xlsx        # Transparency International CPI 2025
+│   │   └── CPI2025_Results.csv         # Transparency International CPI 2025
 │   └── processed/
 │       └── cfrs_scores.csv             # CFRS scores for 32 countries
 ├── notebooks/
@@ -78,6 +94,8 @@ campaign-finance-latam/
 ├── outputs/
 │   └── cfrs_vs_cpi.png                 # Scatter plot
 ├── build_cfrs.py                       # Scoring script
+├── queries.sql                         # SQL analysis queries
+├── load_db.py                          # Loads CSVs into SQLite and runs queries
 ├── index.html                          # GitHub Pages site
 ├── requirements.txt                    # Python dependencies
 └── README.md
@@ -89,10 +107,11 @@ campaign-finance-latam/
 
 ```bash
 pip install -r requirements.txt
-python build_cfrs.py
+python build_cfrs.py     # compute CFRS scores
+python load_db.py        # run the SQL analysis
 ```
 
-This reads the raw IDEA export, computes CFRS scores for all 32 countries, and writes `data/processed/cfrs_scores.csv`.
+`build_cfrs.py` reads the raw IDEA export, computes CFRS scores for all 32 countries, and writes `data/processed/cfrs_scores.csv`. The full statistical analysis and visualization are in `notebooks/01_cfrs_analysis.ipynb`.
 
 ---
 
