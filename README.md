@@ -17,6 +17,22 @@ Countries with more campaign finance laws on the books tend to *score lower* on 
 
 ---
 
+## Robustness
+
+The headline correlation depends on two analytical choices — how the 12 variables are
+weighted, and how "No data" responses are scored. Recomputing the correlation under
+reasonable alternatives shows the finding is stable:
+
+| Method | Spearman ρ | p-value | n |
+|---|---|---|---|
+| Baseline (equal-variable weighting, no-data = 0) | -0.428 | 0.018 | 30 |
+| Pillar-weighted (each of 4 pillars = 25%) | -0.428 | 0.018 | 30 |
+| No-data dropped (excluded, not zeroed) | -0.434 | 0.017 | 30 |
+
+The negative relationship holds across all three specifications and remains significant
+at the 95% level, indicating it is not an artifact of the weighting scheme or the
+treatment of missing data. Full computation is in the analysis notebook (§3b).
+
 ## Data Sources
 
 | Dataset | Source | Year |
@@ -95,9 +111,8 @@ This reads the raw IDEA export, computes CFRS scores for all 32 countries, and w
 
 - CPI measures *perceptions* of corruption, not actual corruption
 - IDEA data reflects laws on paper — enforcement quality is not captured
-- Small sample size (n=32) limits statistical power
-- "No data" responses are scored as 0 (absence of a rule); since data availability may itself correlate with governance quality, this is a conservative assumption worth testing
-- Future work: add World Bank Control of Corruption index, GDP per capita controls, and press freedom scores; run a pillar-weighted version of the index as a robustness check
+- The correlation is based on 30 countries (32 are scored on the CFRS, but Antigua & Barbuda and Saint Kitts & Nevis are dropped for lack of matching CPI data), which limits statistical power
+- The index involves choices about variable weighting and missing-data treatment; a robustness check (above) confirms the main finding is stable across reasonable alternatives
 
 ---
 
