@@ -1,7 +1,9 @@
 # Campaign Finance Regulatory Score (CFRS) — Latin America & Caribbean
 
-> **Do stronger campaign finance laws actually reduce corruption?**  
+> **Do stronger campaign finance laws actually reduce corruption?**
 > This project builds an original index scoring illicit campaign financing laws across 32 Latin American and Caribbean countries, then tests whether stronger laws correlate with lower perceived corruption.
+
+**🔗 Live site:** https://angelloaleon.github.io/campaign-finance-latam/
 
 ---
 
@@ -38,6 +40,8 @@ Each country is scored across **12 variables** grouped into **4 pillars**:
 
 Each variable is scored 0, 0.5, or 1 based on IDEA's responses. The final CFRS is the average across all 12 variables, scaled to 0–100.
 
+**Note on weighting:** because the index averages all 12 variables equally, the pillars are *not* weighted equally — Prohibitions and Transparency (4 variables each) carry twice the weight of Spending Limits and Enforcement (2 variables each). This is a deliberate choice reflecting variable availability in the IDEA data; a pillar-weighted robustness check is noted under Limitations.
+
 ### Correlation
 Spearman rank correlation was chosen over Pearson because the data is ordinal and a strictly linear relationship is not assumed.
 
@@ -47,19 +51,32 @@ Spearman rank correlation was chosen over Pearson because the data is ordinal an
 
 ```
 campaign-finance-latam/
-├── Data/
-│   ├── Raw/
+├── data/
+│   ├── raw/
 │   │   ├── export_table_raw.csv        # IDEA Political Finance Database export
-│   │   └── CPI2025_Results.csv         # Transparency International CPI 2025
-│   └── Processed/
+│   │   └── CPI2025_Results.xlsx        # Transparency International CPI 2025
+│   └── processed/
 │       └── cfrs_scores.csv             # CFRS scores for 32 countries
 ├── notebooks/
 │   └── 01_cfrs_analysis.ipynb          # Full analysis notebook
 ├── outputs/
 │   └── cfrs_vs_cpi.png                 # Scatter plot
 ├── build_cfrs.py                       # Scoring script
+├── index.html                          # GitHub Pages site
+├── requirements.txt                    # Python dependencies
 └── README.md
 ```
+
+---
+
+## Reproducing the Analysis
+
+```bash
+pip install -r requirements.txt
+python build_cfrs.py
+```
+
+This reads the raw IDEA export, computes CFRS scores for all 32 countries, and writes `data/processed/cfrs_scores.csv`.
 
 ---
 
@@ -78,12 +95,13 @@ campaign-finance-latam/
 
 - CPI measures *perceptions* of corruption, not actual corruption
 - IDEA data reflects laws on paper — enforcement quality is not captured
-- Small sample size (n=30) limits statistical power
-- Future work: add World Bank Control of Corruption index, GDP per capita controls, and press freedom scores
+- Small sample size (n=32) limits statistical power
+- "No data" responses are scored as 0 (absence of a rule); since data availability may itself correlate with governance quality, this is a conservative assumption worth testing
+- Future work: add World Bank Control of Corruption index, GDP per capita controls, and press freedom scores; run a pillar-weighted version of the index as a robustness check
 
 ---
 
 ## Author
 
-**Angello Leon**  
+**Angello Leon**
 Built as a portfolio project demonstrating data collection, original index construction, statistical analysis, and policy research skills.
